@@ -1,4 +1,4 @@
-# Http extension
+# Http App
 
 [![Build Status](https://img.shields.io/travis/weew/php-app-http.svg)](https://travis-ci.org/weew/php-app-http)
 [![Code Quality](https://img.shields.io/scrutinizer/g/weew/php-app-http.svg)](https://scrutinizer-ci.com/g/weew/php-app-http)
