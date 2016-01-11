@@ -1,6 +1,6 @@
 <?php
 
-namespace Weew\App\Http\Events\App;
+namespace Weew\App\Http\Events;
 
 use Weew\Eventer\Event;
 use Weew\Http\IHttpRequest;

@@ -3,9 +3,9 @@
 namespace Weew\App\Http;
 
 use Weew\App\App;
-use Weew\App\Http\Events\App\IncomingHttpRequestEvent;
-use Weew\App\Http\Events\App\HandleHttpRequestEvent;
-use Weew\App\Http\Events\App\HttpRequestHandledEvent;
+use Weew\App\Http\Events\HandleHttpRequestEvent;
+use Weew\App\Http\Events\HttpRequestHandledEvent;
+use Weew\App\Http\Events\IncomingHttpRequestEvent;
 use Weew\App\Http\Exceptions\HttpRequestNotHandled;
 use Weew\Http\HttpRequest;
 use Weew\Http\IHttpRequest;

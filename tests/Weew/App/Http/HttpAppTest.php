@@ -3,11 +3,11 @@
 namespace Tests\Weew\App\Http;
 
 use PHPUnit_Framework_TestCase;
-use Weew\App\Events\App\AppStartedEvent;
 use Weew\App\Events\App\AppShutdownEvent;
-use Weew\App\Http\Events\App\HandleHttpRequestEvent;
-use Weew\App\Http\Events\App\HttpRequestHandledEvent;
-use Weew\App\Http\Events\App\IncomingHttpRequestEvent;
+use Weew\App\Events\App\AppStartedEvent;
+use Weew\App\Http\Events\HandleHttpRequestEvent;
+use Weew\App\Http\Events\HttpRequestHandledEvent;
+use Weew\App\Http\Events\IncomingHttpRequestEvent;
 use Weew\App\Http\Exceptions\HttpRequestNotHandled;
 use Weew\App\Http\HttpApp;
 use Weew\App\Util\EventerTester;
