@@ -38,3 +38,4 @@ $app->getEventer()
     });
 ```
 
+There is already an existing implementation for this, see [weew/php-app-http-request-handler](https://github.com/weew/php-app-http-request-handler).
