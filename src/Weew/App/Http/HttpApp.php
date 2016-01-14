@@ -6,8 +6,9 @@ use Weew\App\App;
 use Weew\App\Http\Events\HandleHttpRequestEvent;
 use Weew\App\Http\Events\HttpRequestHandledEvent;
 use Weew\App\Http\Events\IncomingHttpRequestEvent;
-use Weew\App\Http\Exceptions\HttpRequestNotHandled;
 use Weew\Http\HttpRequest;
+use Weew\Http\HttpResponse;
+use Weew\Http\HttpStatusCode;
 use Weew\Http\IHttpRequest;
 use Weew\Http\IHttpResponse;
 
@@ -16,7 +17,6 @@ class HttpApp extends App implements IHttpApp {
      * @param IHttpRequest $request
      *
      * @return IHttpResponse
-     * @throws HttpRequestNotHandled
      */
     public function handle(IHttpRequest $request) {
         // share request instance
@@ -53,13 +53,16 @@ class HttpApp extends App implements IHttpApp {
         }
 
         // if there was no one to handle the http request,
-        // throw an exception to show that something is wrong
-        throw new HttpRequestNotHandled(s(
-            'Http request was not handled. ' .
-            'It seems like no one is registered to handle it. ' .
-            'You can solve this by handling the "%s" event and providing ' .
-            'a valid IHttpResponse i.e: $event->setResponse($response)',
-            HandleHttpRequestEvent::class
-        ));
+        // return a 404 response
+        return new HttpResponse(
+            HttpStatusCode::NOT_FOUND,
+            s(
+                'Http request was not handled. ' .
+                'It seems like no one is registered to handle it. ' .
+                'You can solve this by handling the "%s" event and providing ' .
+                'a valid IHttpResponse i.e: $event->setResponse($response)',
+                HandleHttpRequestEvent::class
+            )
+        );
     }
 }
