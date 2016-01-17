@@ -1,6 +1,6 @@
 {
     "name": "weew/php-app-http",
-    "description": "Http extension for the weew/php-app package.",
+    "description": "Http version of the weew/php-app package.",
     "license": "MIT",
     "authors": [
         {
