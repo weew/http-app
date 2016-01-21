@@ -3,6 +3,7 @@
 namespace Tests\Weew\App\Http;
 
 use PHPUnit_Framework_TestCase;
+use Tests\Weew\App\Http\Stubs\HttpResponseExceptionProvider;
 use Weew\App\Events\AppShutdownEvent;
 use Weew\App\Events\AppStartedEvent;
 use Weew\App\Http\Events\HandleHttpRequestEvent;
@@ -46,5 +47,12 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $response = $app->handle(new HttpRequest());
         $this->assertTrue($response instanceof IHttpResponse);
         $this->assertEquals(HttpStatusCode::NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function test_app_handles_http_response_exceptions() {
+        $app = new HttpApp();
+        $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
+        $response = $app->handle(new HttpRequest());
+        $this->assertEquals('exception response', $response->getContent());
     }
 }

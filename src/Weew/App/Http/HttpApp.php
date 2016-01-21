@@ -6,6 +6,7 @@ use Weew\App\App;
 use Weew\App\Http\Events\HandleHttpRequestEvent;
 use Weew\App\Http\Events\HttpRequestHandledEvent;
 use Weew\App\Http\Events\IncomingHttpRequestEvent;
+use Weew\App\Http\Exceptions\HttpResponseException;
 use Weew\Http\HttpRequest;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
@@ -19,6 +20,19 @@ class HttpApp extends App implements IHttpApp {
      * @return IHttpResponse
      */
     public function handle(IHttpRequest $request) {
+        try {
+            return $this->handleRequest($request);
+        } catch (HttpResponseException $ex) {
+            return $ex->getResponse();
+        }
+    }
+
+    /**
+     * @param IHttpRequest $request
+     *
+     * @return IHttpResponse
+     */
+    protected function handleRequest(IHttpRequest $request) {
         // share request instance
         $this->container->set(
             [HttpRequest::class, IHttpRequest::class], $request
