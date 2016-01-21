@@ -23,7 +23,7 @@ class HttpResponseException extends Exception {
     /**
      * @return IHttpResponse
      */
-    public function getResponse() {
+    public function getHttpResponse() {
         return $this->response;
     }
 }
