@@ -12,4 +12,11 @@ interface IHttpApp {
      * @return IHttpResponse
      */
     function handle(IHttpRequest $request);
+
+    /**
+     * @param IHttpRequest $request
+     *
+     * @return IHttpResponse
+     */
+    function handleInternal(IHttpRequest $request);
 }

@@ -32,7 +32,21 @@ class HttpApp extends App implements IHttpApp {
      *
      * @return IHttpResponse
      */
-    protected function handleRequest(IHttpRequest $request) {
+    public function handleInternal(IHttpRequest $request) {
+        try {
+            return $this->handleRequest($request, true);
+        } catch (HttpResponseException $ex) {
+            return $ex->getHttpResponse();
+        }
+    }
+
+    /**
+     * @param IHttpRequest $request
+     * @param bool $internal
+     *
+     * @return IHttpResponse
+     */
+    protected function handleRequest(IHttpRequest $request, $internal = false) {
         // share request instance
         $this->container->set(
             [HttpRequest::class, IHttpRequest::class], $request
@@ -57,8 +71,11 @@ class HttpApp extends App implements IHttpApp {
             );
         }
 
-        // shutdown application
-        $this->shutdown();
+        // do not shutdown app on an internal requests
+        if ( ! $internal) {
+            // shutdown application
+            $this->shutdown();
+        }
 
         // in case there was a valid http response,
         // return it as the final application result

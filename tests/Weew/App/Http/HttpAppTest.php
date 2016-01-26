@@ -42,6 +42,25 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $tester->assert();
     }
 
+    public function test_handle_internal() {
+        $app = new HttpApp();
+
+        $app->getEventer()->subscribe(HandleHttpRequestEvent::class,
+            function(HandleHttpRequestEvent $event) {
+                $event->setResponse(new HttpResponse());
+            });
+
+        $this->assertTrue(
+            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+        );
+        $this->assertTrue(
+            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+        );
+        $this->assertTrue(
+            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+        );
+    }
+
     public function test_http_request_not_handled_results_in_404() {
         $app = new HttpApp();
         $response = $app->handle(new HttpRequest());
@@ -53,6 +72,13 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $app = new HttpApp();
         $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
         $response = $app->handle(new HttpRequest());
+        $this->assertEquals('exception response', $response->getContent());
+    }
+
+    public function test_app_handle_internal_handles_http_response_exceptions() {
+        $app = new HttpApp();
+        $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
+        $response = $app->handleInternal(new HttpRequest());
         $this->assertEquals('exception response', $response->getContent());
     }
 }
