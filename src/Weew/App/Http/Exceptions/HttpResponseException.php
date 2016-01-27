@@ -9,21 +9,27 @@ class HttpResponseException extends Exception {
     /**
      * @var IHttpResponse
      */
-    private $response;
+    private $httpResponse;
 
     /**
      * HttpResponseException constructor.
      *
-     * @param IHttpResponse $response
+     * @param IHttpResponse $httResponse
+     * @param null $message
      */
-    public function __construct(IHttpResponse $response) {
-        $this->response = $response;
+    public function __construct(
+        IHttpResponse $httResponse,
+        $message = null
+    ) {
+        parent::__construct($message);
+
+        $this->httpResponse = $httResponse;
     }
 
     /**
      * @return IHttpResponse
      */
     public function getHttpResponse() {
-        return $this->response;
+        return $this->httpResponse;
     }
 }
