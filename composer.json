@@ -1,5 +1,5 @@
 {
-    "name": "weew/php-app-http",
+    "name": "weew/php-http-app",
     "description": "Http version of the weew/php-app package.",
     "license": "MIT",
     "authors": [

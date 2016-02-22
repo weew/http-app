@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Weew\App\Http\Stubs;
+namespace Tests\Weew\HttpApp\Stubs;
 
-use Weew\App\Http\Exceptions\HttpResponseException;
+use Weew\HttpApp\Exceptions\HttpResponseException;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
 

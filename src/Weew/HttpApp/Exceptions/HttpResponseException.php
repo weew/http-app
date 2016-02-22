@@ -1,6 +1,6 @@
 <?php
 
-namespace Weew\App\Http\Exceptions;
+namespace Weew\HttpApp\Exceptions;
 
 use Exception;
 use Weew\Http\IHttpResponse;

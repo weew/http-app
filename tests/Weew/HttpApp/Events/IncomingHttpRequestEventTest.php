@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Weew\App\Http\Events;
+namespace Tests\Weew\HttpApp\Events;
 
 use PHPUnit_Framework_TestCase;
-use Weew\App\Http\Events\IncomingHttpRequestEvent;
+use Weew\HttpApp\Events\IncomingHttpRequestEvent;
 use Weew\Http\HttpRequest;
 
 class IncomingHttpRequestEventTest extends PHPUnit_Framework_TestCase {

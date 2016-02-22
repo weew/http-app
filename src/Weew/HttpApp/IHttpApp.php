@@ -1,6 +1,6 @@
 <?php
 
-namespace Weew\App\Http;
+namespace Weew\HttpApp;
 
 use Weew\Http\IHttpRequest;
 use Weew\Http\IHttpResponse;

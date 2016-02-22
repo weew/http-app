@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Weew\App\Http;
+namespace Tests\Weew\HttpApp;
 
 use PHPUnit_Framework_TestCase;
-use Tests\Weew\App\Http\Stubs\HttpResponseExceptionProvider;
+use Tests\Weew\HttpApp\Stubs\HttpResponseExceptionProvider;
 use Weew\App\Events\AppShutdownEvent;
 use Weew\App\Events\AppStartedEvent;
-use Weew\App\Http\Events\HandleHttpRequestEvent;
-use Weew\App\Http\Events\HttpRequestHandledEvent;
-use Weew\App\Http\Events\IncomingHttpRequestEvent;
-use Weew\App\Http\HttpApp;
+use Weew\HttpApp\Events\HandleHttpRequestEvent;
+use Weew\HttpApp\Events\HttpRequestHandledEvent;
+use Weew\HttpApp\Events\IncomingHttpRequestEvent;
+use Weew\HttpApp\HttpApp;
 use Weew\App\Util\EventerTester;
 use Weew\Http\HttpRequest;
 use Weew\Http\HttpResponse;

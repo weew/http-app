@@ -1,12 +1,12 @@
 <?php
 
-namespace Weew\App\Http\Events;
+namespace Weew\HttpApp\Events;
 
 use Weew\Eventer\Event;
 use Weew\Http\IHttpRequest;
 use Weew\Http\IHttpResponse;
 
-class HandleHttpRequestEvent extends Event {
+class HttpRequestHandledEvent extends Event {
     /**
      * @var IHttpRequest
      */
@@ -18,12 +18,14 @@ class HandleHttpRequestEvent extends Event {
     private $response;
 
     /**
-     * HandleHttpRequestEvent constructor.
+     * HttpRequestHandledEvent constructor.
      *
      * @param IHttpRequest $request
+     * @param IHttpResponse $response
      */
-    public function __construct(IHttpRequest $request) {
+    public function __construct(IHttpRequest $request, IHttpResponse $response) {
         $this->request = $request;
+        $this->response = $response;
     }
 
     /**
@@ -38,12 +40,5 @@ class HandleHttpRequestEvent extends Event {
      */
     public function getResponse() {
         return $this->response;
-    }
-
-    /**
-     * @param IHttpResponse $response
-     */
-    public function setResponse(IHttpResponse $response) {
-        $this->response = $response;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Weew\App\Http\Exceptions;
+namespace Tests\Weew\HttpApp\Exceptions;
 
 use PHPUnit_Framework_TestCase;
-use Weew\App\Http\Exceptions\HttpResponseException;
+use Weew\HttpApp\Exceptions\HttpResponseException;
 use Weew\Http\HttpResponse;
 
 class HttpResponseExceptionTest extends PHPUnit_Framework_TestCase {

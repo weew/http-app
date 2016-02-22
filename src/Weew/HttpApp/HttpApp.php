@@ -1,12 +1,12 @@
 <?php
 
-namespace Weew\App\Http;
+namespace Weew\HttpApp;
 
 use Weew\App\App;
-use Weew\App\Http\Events\HandleHttpRequestEvent;
-use Weew\App\Http\Events\HttpRequestHandledEvent;
-use Weew\App\Http\Events\IncomingHttpRequestEvent;
-use Weew\App\Http\Exceptions\HttpResponseException;
+use Weew\HttpApp\Events\HandleHttpRequestEvent;
+use Weew\HttpApp\Events\HttpRequestHandledEvent;
+use Weew\HttpApp\Events\IncomingHttpRequestEvent;
+use Weew\HttpApp\Exceptions\HttpResponseException;
 use Weew\Http\HttpRequest;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
