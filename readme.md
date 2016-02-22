@@ -11,6 +11,7 @@
 - [Installation](#installation)
 - [Introduction](#introduction)
 - [Usage](#usage)
+- [Extensions](#extensions)
 
 ## Installation
 
@@ -39,3 +40,9 @@ $app->getEventer()
 ```
 
 There is already an existing implementation for this, see [weew/php-app-http-request-handler](https://github.com/weew/php-app-http-request-handler).
+
+## Extensions
+
+There are several extensions available:
+
+- [weew/php-app-http-request-handler](https://github.com/weew/php-app-http-request-handler)
