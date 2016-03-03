@@ -15,6 +15,15 @@ use Weew\Http\IHttpResponse;
 
 class HttpApp extends App implements IHttpApp {
     /**
+     * HttpApp constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+
+        $this->container->set([HttpApp::class, IHttpApp::class], $this);
+    }
+
+    /**
      * @param IHttpRequest $request
      *
      * @return IHttpResponse

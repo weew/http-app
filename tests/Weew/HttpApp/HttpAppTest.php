@@ -15,10 +15,17 @@ use Weew\Http\HttpRequest;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
 use Weew\Http\IHttpResponse;
+use Weew\HttpApp\IHttpApp;
 
 class HttpAppTest extends PHPUnit_Framework_TestCase {
     public function test_create() {
         new HttpApp();
+    }
+
+    public function test_shares_its_instance_in_the_container() {
+        $app = new HttpApp();
+        $this->assertTrue($app->getContainer()->get(HttpApp::class) === $app);
+        $this->assertTrue($app->getContainer()->get(IHttpApp::class) === $app);
     }
 
     public function test_start_shutdown_handling_and_handled_events() {
