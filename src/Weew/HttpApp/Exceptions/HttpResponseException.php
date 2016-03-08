@@ -4,12 +4,14 @@ namespace Weew\HttpApp\Exceptions;
 
 use Exception;
 use Weew\Http\IHttpResponse;
+use Weew\Http\IHttpResponseable;
 
-class HttpResponseException extends Exception {
+class HttpResponseException extends Exception
+    implements IHttpResponseable {
     /**
      * @var IHttpResponse
      */
-    private $httpResponse;
+    protected $httpResponse;
 
     /**
      * HttpResponseException constructor.
@@ -29,7 +31,7 @@ class HttpResponseException extends Exception {
     /**
      * @return IHttpResponse
      */
-    public function getHttpResponse() {
+    public function toHttpResponse() {
         return $this->httpResponse;
     }
 }

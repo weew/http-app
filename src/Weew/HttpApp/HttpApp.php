@@ -32,7 +32,7 @@ class HttpApp extends App implements IHttpApp {
         try {
             return $this->handleRequest($request);
         } catch (HttpResponseException $ex) {
-            return $ex->getHttpResponse();
+            return $ex->toHttpResponse();
         }
     }
 
@@ -45,7 +45,7 @@ class HttpApp extends App implements IHttpApp {
         try {
             return $this->handleRequest($request, true);
         } catch (HttpResponseException $ex) {
-            return $ex->getHttpResponse();
+            return $ex->toHttpResponse();
         }
     }
 
