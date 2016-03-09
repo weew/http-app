@@ -2,7 +2,9 @@
 
 namespace Weew\HttpApp;
 
+use Exception;
 use Weew\App\App;
+use Weew\Http\IHttpResponseable;
 use Weew\HttpApp\Events\HandleHttpRequestEvent;
 use Weew\HttpApp\Events\HttpRequestHandledEvent;
 use Weew\HttpApp\Events\IncomingHttpRequestEvent;
@@ -29,11 +31,9 @@ class HttpApp extends App implements IHttpApp {
      * @return IHttpResponse
      */
     public function handle(IHttpRequest $request) {
-        try {
+        return $this->handleExceptions(function() use ($request) {
             return $this->handleRequest($request);
-        } catch (HttpResponseException $ex) {
-            return $ex->toHttpResponse();
-        }
+        });
     }
 
     /**
@@ -42,11 +42,9 @@ class HttpApp extends App implements IHttpApp {
      * @return IHttpResponse
      */
     public function handleInternal(IHttpRequest $request) {
-        try {
+        return $this->handleExceptions(function() use ($request) {
             return $this->handleRequest($request, true);
-        } catch (HttpResponseException $ex) {
-            return $ex->toHttpResponse();
-        }
+        });
     }
 
     /**
@@ -104,5 +102,23 @@ class HttpApp extends App implements IHttpApp {
                 HandleHttpRequestEvent::class
             )
         );
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return IHttpResponse
+     * @throws Exception
+     */
+    protected function handleExceptions(callable $callable) {
+        try {
+            return $callable();
+        } catch (Exception $ex) {
+            if ($ex instanceof IHttpResponseable) {
+                return $ex->toHttpResponse();
+            }
+
+            throw $ex;
+        }
     }
 }

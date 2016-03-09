@@ -2,8 +2,10 @@
 
 namespace Tests\Weew\HttpApp;
 
+use Exception;
 use PHPUnit_Framework_TestCase;
 use Tests\Weew\HttpApp\Stubs\HttpResponseExceptionProvider;
+use Tests\Weew\HttpApp\Stubs\RegularExceptionProvider;
 use Weew\App\Events\AppShutdownEvent;
 use Weew\App\Events\AppStartedEvent;
 use Weew\HttpApp\Events\HandleHttpRequestEvent;
@@ -75,17 +77,17 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(HttpStatusCode::NOT_FOUND, $response->getStatusCode());
     }
 
-    public function test_app_handles_http_response_exceptions() {
+    public function test_app_handles_http_responseable_exceptions() {
         $app = new HttpApp();
         $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
         $response = $app->handle(new HttpRequest());
         $this->assertEquals('exception response', $response->getContent());
     }
 
-    public function test_app_handle_internal_handles_http_response_exceptions() {
+    public function test_app_rethrows_exceptions_that_are_not_http_responseable() {
         $app = new HttpApp();
-        $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
-        $response = $app->handleInternal(new HttpRequest());
-        $this->assertEquals('exception response', $response->getContent());
+        $app->getKernel()->addProvider(RegularExceptionProvider::class);
+        $this->setExpectedException(Exception::class, 'regular exception');
+        $response = $app->handle(new HttpRequest());
     }
 }
