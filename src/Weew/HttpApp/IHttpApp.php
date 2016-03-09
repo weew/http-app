@@ -2,10 +2,11 @@
 
 namespace Weew\HttpApp;
 
+use Weew\App\IApp;
 use Weew\Http\IHttpRequest;
 use Weew\Http\IHttpResponse;
 
-interface IHttpApp {
+interface IHttpApp extends IApp {
     /**
      * @param IHttpRequest $request
      *
