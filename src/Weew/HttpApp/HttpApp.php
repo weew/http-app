@@ -8,7 +8,6 @@ use Weew\Http\IHttpResponseable;
 use Weew\HttpApp\Events\HandleHttpRequestEvent;
 use Weew\HttpApp\Events\HttpRequestHandledEvent;
 use Weew\HttpApp\Events\IncomingHttpRequestEvent;
-use Weew\HttpApp\Exceptions\HttpResponseException;
 use Weew\Http\HttpRequest;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
@@ -18,9 +17,11 @@ use Weew\Http\IHttpResponse;
 class HttpApp extends App implements IHttpApp {
     /**
      * HttpApp constructor.
+     *
+     * @param null $environment
      */
-    public function __construct() {
-        parent::__construct();
+    public function __construct($environment = null) {
+        parent::__construct($environment);
 
         $this->container->set([HttpApp::class, IHttpApp::class], $this);
     }
