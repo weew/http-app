@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "weew/php-app": "^1.5",
+        "weew/php-app": "^2.0",
         "weew/php-http": "^1.9"
     },
     "require-dev": {
