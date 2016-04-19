@@ -90,4 +90,20 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $this->setExpectedException(Exception::class, 'regular exception');
         $response = $app->handle(new HttpRequest());
     }
+
+    public function test_switch_env_in_env_aware_mode() {
+        $app = new HttpApp();
+        $request = new HttpRequest();
+
+        $app->handle($request);
+        $this->assertEquals('prod', $app->getEnvironment());
+
+        $request->getHeaders()->set('x-env', 'dev');
+        $app->handle($request);
+        $this->assertEquals('prod', $app->getEnvironment());
+
+        $app->getConfig()->set('environment_aware', true);
+        $app->handle($request);
+        $this->assertEquals('dev', $app->getEnvironment());
+    }
 }

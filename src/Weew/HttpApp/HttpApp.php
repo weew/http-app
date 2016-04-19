@@ -32,6 +32,8 @@ class HttpApp extends App implements IHttpApp {
      * @return IHttpResponse
      */
     public function handle(IHttpRequest $request) {
+        $this->detectEnvFromRequest($request);
+
         return $this->handleExceptions(function() use ($request) {
             return $this->handleRequest($request);
         });
@@ -120,6 +122,17 @@ class HttpApp extends App implements IHttpApp {
             }
 
             throw $ex;
+        }
+    }
+
+    /**
+     * @param IHttpRequest $request
+     */
+    protected function detectEnvFromRequest(IHttpRequest $request) {
+        $env = $request->getHeaders()->find('x-env');
+
+        if ($env && $this->getConfig()->get('environment_aware') === true) {
+            $this->setEnvironment($env);
         }
     }
 }

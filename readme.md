@@ -11,6 +11,7 @@
 - [Installation](#installation)
 - [Introduction](#introduction)
 - [Usage](#usage)
+- [Environment awareness](#environment-awareness)
 - [Extensions](#extensions)
 
 ## Installation
@@ -40,6 +41,21 @@ $app->getEventer()
 ```
 
 There is already an existing implementation for this, see [weew/php-http-app-request-handler](https://github.com/weew/php-http-app-request-handler).
+
+## Environment awareness
+
+Sometimes you might want, for example during tests, to send a request to the same front controller but in a different environment. Symfony does this using different front controllers: `app.php` and `app_dev.php`. This approach will however alter the url and might not be suitable in some situations. Beside creating different front controllers you can also specify an environment using the `x-env` header with a value like `prod`, `dev`, etc. This feature is disabled by default and you can enable it by setting `environment_aware` to true inside the config object.
+
+ ```php
+ $app->getConfig()->set('environment_aware', true);
+ $request = new HttpRequest();
+ $request->getHeaders()->set('x-env', 'integration');
+
+ // app will run in the "integration" environment
+ $app->handle($request);
+ ```
+
+You must not use this in production! This is why it is disabled by default. Only enable this feature for your dev environment.
 
 ## Extensions
 
