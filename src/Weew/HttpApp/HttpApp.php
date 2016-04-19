@@ -129,10 +129,65 @@ class HttpApp extends App implements IHttpApp {
      * @param IHttpRequest $request
      */
     protected function detectEnvFromRequest(IHttpRequest $request) {
-        $env = $request->getHeaders()->find('x-env');
+        $envs = [];
+        $envs[] = $this->detectEnvFromRequestHeader($request);
+        $envs[] = $this->detectEnvFromUrlQuery($request);
+        $envs[] = $this->detectEnvFromUrlPath($request);
 
-        if ($env && $this->getConfig()->get('environment_aware') === true) {
-            $this->setEnvironment($env);
+        if ($this->getConfig()->get('environment_aware') === true) {
+            foreach ($envs as $env) {
+                if ($env) {
+                    $this->setEnvironment($env);
+                    break;
+                }
+            }
         }
+    }
+
+    /**
+     * @param IHttpRequest $request
+     *
+     * @return string
+     */
+    protected function detectEnvFromRequestHeader(IHttpRequest $request) {
+        $env = $request->getHeaders()->find('x-env');
+        $request->getHeaders()->remove('x-env');
+
+        return $env;
+    }
+
+    /**
+     * @param IHttpRequest $request
+     *
+     * @return mixed
+     */
+    protected function detectEnvFromUrlQuery(IHttpRequest $request) {
+        $env = $request->getUrl()->getQuery()->get('env');
+
+        if (is_scalar($env)) {
+            // remove env setting from the url
+            $request->getUrl()->getQuery()->remove('env');
+
+            return $env;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param IHttpRequest $request
+     *
+     * @return mixed
+     */
+    protected function detectEnvFromUrlPath(IHttpRequest $request) {
+        $env = $request->getUrl()->parsePath('/env={env}')->get('env');
+
+        if ($env) {
+            // remove environment from the url
+            $cleanPath = str_replace(s('/env=%s', $env), '', $request->getUrl()->getPath());
+            $request->getUrl()->setPath($cleanPath);
+        }
+
+        return $env;
     }
 }

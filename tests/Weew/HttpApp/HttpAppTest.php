@@ -98,12 +98,45 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $app->handle($request);
         $this->assertEquals('prod', $app->getEnvironment());
 
+        $request = new HttpRequest();
         $request->getHeaders()->set('x-env', 'dev');
         $app->handle($request);
         $this->assertEquals('prod', $app->getEnvironment());
+        $this->assertNull($request->getHeaders()->find('x-env'));
 
+        $request = new HttpRequest();
+        $request->getHeaders()->set('x-env', 'dev');
         $app->getConfig()->set('environment_aware', true);
         $app->handle($request);
         $this->assertEquals('dev', $app->getEnvironment());
+        $this->assertNull($request->getHeaders()->find('x-env'));
+
+        $request = new HttpRequest();
+        $request->getUrl()->getQuery()->set('env', 'stage');
+        $app->getConfig()->set('environment_aware', true);
+        $app->handle($request);
+        $this->assertEquals('stage', $app->getEnvironment());
+        $this->assertNull($request->getUrl()->getQuery()->get('env'));
+
+        $request = new HttpRequest();
+        $request->getUrl()->setPath('/env=test/some/url');
+        $app->getConfig()->set('environment_aware', true);
+        $app->handle($request);
+        $this->assertEquals('test', $app->getEnvironment());
+        $this->assertEquals('/some/url', $request->getUrl()->getPath());
+
+        $request = new HttpRequest();
+        $request->getUrl()->setPath('/some/url/env=demo');
+        $app->getConfig()->set('environment_aware', true);
+        $app->handle($request);
+        $this->assertEquals('demo', $app->getEnvironment());
+        $this->assertEquals('/some/url', $request->getUrl()->getPath());
+
+        $request = new HttpRequest();
+        $request->getUrl()->setPath('/some/env=stage/url');
+        $app->getConfig()->set('environment_aware', true);
+        $app->handle($request);
+        $this->assertEquals('stage', $app->getEnvironment());
+        $this->assertEquals('/some/url', $request->getUrl()->getPath());
     }
 }
