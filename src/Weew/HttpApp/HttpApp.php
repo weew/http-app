@@ -18,10 +18,11 @@ class HttpApp extends App implements IHttpApp {
     /**
      * HttpApp constructor.
      *
-     * @param null $environment
+     * @param string $environment
+     * @param bool $debug
      */
-    public function __construct($environment = null) {
-        parent::__construct($environment);
+    public function __construct($environment = null, $debug = null) {
+        parent::__construct($environment, $debug);
 
         $this->container->set([HttpApp::class, IHttpApp::class], $this);
     }
@@ -134,7 +135,7 @@ class HttpApp extends App implements IHttpApp {
         $envs[] = $this->detectEnvFromUrlQuery($request);
         $envs[] = $this->detectEnvFromUrlPath($request);
 
-        if ($this->getConfig()->get('environment_aware') === true) {
+        if ($this->getDebug()) {
             foreach ($envs as $env) {
                 if ($env) {
                     $this->setEnvironment($env);
