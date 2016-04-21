@@ -32,11 +32,11 @@ class HttpApp extends App implements IHttpApp {
      *
      * @return IHttpResponse
      */
-    public function handle(IHttpRequest $request) {
+    public function handleRequest(IHttpRequest $request) {
         $this->detectEnvFromRequest($request);
 
         return $this->handleExceptions(function() use ($request) {
-            return $this->handleRequest($request);
+            return $this->processRequest($request);
         });
     }
 
@@ -45,9 +45,9 @@ class HttpApp extends App implements IHttpApp {
      *
      * @return IHttpResponse
      */
-    public function handleInternal(IHttpRequest $request) {
+    public function handleInternalRequest(IHttpRequest $request) {
         return $this->handleExceptions(function() use ($request) {
-            return $this->handleRequest($request, true);
+            return $this->processRequest($request, true);
         });
     }
 
@@ -57,7 +57,7 @@ class HttpApp extends App implements IHttpApp {
      *
      * @return IHttpResponse
      */
-    protected function handleRequest(IHttpRequest $request, $internal = false) {
+    protected function processRequest(IHttpRequest $request, $internal = false) {
         // share request instance
         $this->container->set(
             [HttpRequest::class, IHttpRequest::class], $request

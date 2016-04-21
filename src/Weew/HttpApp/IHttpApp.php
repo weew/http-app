@@ -12,12 +12,12 @@ interface IHttpApp extends IApp {
      *
      * @return IHttpResponse
      */
-    function handle(IHttpRequest $request);
+    function handleRequest(IHttpRequest $request);
 
     /**
      * @param IHttpRequest $request
      *
      * @return IHttpResponse
      */
-    function handleInternal(IHttpRequest $request);
+    function handleInternalRequest(IHttpRequest $request);
 }

@@ -47,7 +47,7 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
             AppShutdownEvent::class,
         ]);
 
-        $app->handle(new HttpRequest());
+        $app->handleRequest(new HttpRequest());
         $tester->assert();
     }
 
@@ -60,19 +60,19 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
             });
 
         $this->assertTrue(
-            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+            $app->handleInternalRequest(new HttpRequest()) instanceof IHttpResponse
         );
         $this->assertTrue(
-            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+            $app->handleInternalRequest(new HttpRequest()) instanceof IHttpResponse
         );
         $this->assertTrue(
-            $app->handleInternal(new HttpRequest()) instanceof IHttpResponse
+            $app->handleInternalRequest(new HttpRequest()) instanceof IHttpResponse
         );
     }
 
     public function test_http_request_not_handled_results_in_404() {
         $app = new HttpApp();
-        $response = $app->handle(new HttpRequest());
+        $response = $app->handleRequest(new HttpRequest());
         $this->assertTrue($response instanceof IHttpResponse);
         $this->assertEquals(HttpStatusCode::NOT_FOUND, $response->getStatusCode());
     }
@@ -80,7 +80,7 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
     public function test_app_handles_http_responseable_exceptions() {
         $app = new HttpApp();
         $app->getKernel()->addProvider(HttpResponseExceptionProvider::class);
-        $response = $app->handle(new HttpRequest());
+        $response = $app->handleRequest(new HttpRequest());
         $this->assertEquals('exception response', $response->getContent());
     }
 
@@ -88,54 +88,54 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $app = new HttpApp();
         $app->getKernel()->addProvider(RegularExceptionProvider::class);
         $this->setExpectedException(Exception::class, 'regular exception');
-        $response = $app->handle(new HttpRequest());
+        $response = $app->handleRequest(new HttpRequest());
     }
 
     public function test_switch_env_in_env_aware_mode() {
         $app = new HttpApp();
         $request = new HttpRequest();
 
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('dev', $app->getEnvironment());
 
         $request = new HttpRequest();
         $request->getHeaders()->set('x-env', 'prod');
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('dev', $app->getEnvironment());
         $this->assertNull($request->getHeaders()->find('x-env'));
 
         $request = new HttpRequest();
         $request->getHeaders()->set('x-env', 'prod');
         $app->setDebug(true);
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('prod', $app->getEnvironment());
         $this->assertNull($request->getHeaders()->find('x-env'));
 
         $request = new HttpRequest();
         $request->getUrl()->getQuery()->set('env', 'stage');
         $app->setDebug(true);
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('stage', $app->getEnvironment());
         $this->assertNull($request->getUrl()->getQuery()->get('env'));
 
         $request = new HttpRequest();
         $request->getUrl()->setPath('/env=test/some/url');
         $app->setDebug(true);
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('test', $app->getEnvironment());
         $this->assertEquals('/some/url', $request->getUrl()->getPath());
 
         $request = new HttpRequest();
         $request->getUrl()->setPath('/some/url/env=demo');
         $app->setDebug(true);
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('demo', $app->getEnvironment());
         $this->assertEquals('/some/url', $request->getUrl()->getPath());
 
         $request = new HttpRequest();
         $request->getUrl()->setPath('/some/env=stage/url');
         $app->setDebug(true);
-        $app->handle($request);
+        $app->handleRequest($request);
         $this->assertEquals('stage', $app->getEnvironment());
         $this->assertEquals('/some/url', $request->getUrl()->getPath());
     }
