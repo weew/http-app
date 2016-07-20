@@ -99,6 +99,7 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('dev', $app->getEnvironment());
 
         $request = new HttpRequest();
+        $app->setDebug(false);
         $request->getHeaders()->set('x-env', 'prod');
         $app->handleRequest($request);
         $this->assertEquals('dev', $app->getEnvironment());

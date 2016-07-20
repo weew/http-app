@@ -1,6 +1,6 @@
 {
-    "name": "weew/php-http-app",
-    "description": "Http version of the weew/php-app package.",
+    "name": "weew/http-app",
+    "description": "Http version of the weew/app package.",
     "license": "MIT",
     "authors": [
         {
@@ -19,8 +19,8 @@
         }
     },
     "require": {
-        "weew/php-app": "^2.0",
-        "weew/php-http": "^1.9"
+        "weew/app": "^2.0",
+        "weew/http": "^1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.7",

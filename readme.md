@@ -1,10 +1,10 @@
 # Http App
 
-[![Build Status](https://img.shields.io/travis/weew/php-http-app.svg)](https://travis-ci.org/weew/php-http-app)
-[![Code Quality](https://img.shields.io/scrutinizer/g/weew/php-http-app.svg)](https://scrutinizer-ci.com/g/weew/php-http-app)
-[![Test Coverage](https://img.shields.io/coveralls/weew/php-http-app.svg)](https://coveralls.io/github/weew/php-http-app)
-[![Version](https://img.shields.io/packagist/v/weew/php-http-app.svg)](https://packagist.org/packages/weew/php-http-app)
-[![Licence](https://img.shields.io/packagist/l/weew/php-http-app.svg)](https://packagist.org/packages/weew/php-http-app)
+[![Build Status](https://img.shields.io/travis/weew/http-app.svg)](https://travis-ci.org/weew/http-app)
+[![Code Quality](https://img.shields.io/scrutinizer/g/weew/http-app.svg)](https://scrutinizer-ci.com/g/weew/http-app)
+[![Test Coverage](https://img.shields.io/coveralls/weew/http-app.svg)](https://coveralls.io/github/weew/http-app)
+[![Version](https://img.shields.io/packagist/v/weew/http-app.svg)](https://packagist.org/packages/weew/http-app)
+[![Licence](https://img.shields.io/packagist/l/weew/http-app.svg)](https://packagist.org/packages/weew/http-app)
 
 ## Table of contents
 
@@ -16,7 +16,7 @@
 
 ## Installation
 
-`composer require weew/php-http-app`
+`composer require weew/http-app`
 
 ## Introduction
 
@@ -40,7 +40,7 @@ $app->getEventer()
     });
 ```
 
-There is already an existing implementation for this, see [weew/php-http-app-request-handler](https://github.com/weew/php-http-app-request-handler).
+There is already an existing implementation for this, see [weew/http-app-request-handler](https://github.com/weew/http-app-request-handler).
 
 ## Environment awareness
 
@@ -66,4 +66,4 @@ You must not use this in production! This is why it is disabled by default. Only
 
 There are several extensions available:
 
-- [weew/php-http-app-request-handler](https://github.com/weew/php-http-app-request-handler)
+- [weew/http-app-request-handler](https://github.com/weew/http-app-request-handler)
