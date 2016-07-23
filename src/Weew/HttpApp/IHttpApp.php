@@ -20,4 +20,9 @@ interface IHttpApp extends IApp {
      * @return IHttpResponse
      */
     function handleInternalRequest(IHttpRequest $request);
+
+    /**
+     * @param IHttpResponse $response
+     */
+    function shutdownWithResponse(IHttpResponse $response);
 }

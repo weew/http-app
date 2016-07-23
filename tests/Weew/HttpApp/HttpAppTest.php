@@ -140,4 +140,12 @@ class HttpAppTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('stage', $app->getEnvironment());
         $this->assertEquals('/some/url', $request->getUrl()->getPath());
     }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function test_shutdown_with_response() {
+        $app = new HttpApp();
+        $app->shutdownWithResponse(new HttpResponse());
+    }
 }

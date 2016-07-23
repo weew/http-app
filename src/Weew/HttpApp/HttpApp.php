@@ -36,7 +36,10 @@ class HttpApp extends App implements IHttpApp {
         $this->detectEnvFromRequest($request);
 
         return $this->handleExceptions(function() use ($request) {
-            return $this->processRequest($request);
+            $response = $this->processRequest($request);
+            $this->shutdown();
+
+            return $response;
         });
     }
 
@@ -47,17 +50,26 @@ class HttpApp extends App implements IHttpApp {
      */
     public function handleInternalRequest(IHttpRequest $request) {
         return $this->handleExceptions(function() use ($request) {
-            return $this->processRequest($request, true);
+            return $this->processRequest($request);
         });
     }
 
     /**
+     * @param IHttpResponse $response
+     */
+    public function shutdownWithResponse(IHttpResponse $response) {
+        $this->shutdown();
+        $response->send();
+
+        exit;
+    }
+
+    /**
      * @param IHttpRequest $request
-     * @param bool $internal
      *
      * @return IHttpResponse
      */
-    protected function processRequest(IHttpRequest $request, $internal = false) {
+    protected function processRequest(IHttpRequest $request) {
         // share request instance
         $this->container->set(
             [HttpRequest::class, IHttpRequest::class], $request
@@ -82,30 +94,22 @@ class HttpApp extends App implements IHttpApp {
             );
         }
 
-        // do not shutdown app on an internal requests
-        if ( ! $internal) {
-            // shutdown application
-            $this->shutdown();
-        }
-
         // in case there was a valid http response,
         // return it as the final application result
-        if ($response instanceof IHttpResponse) {
-            return $response;
+        if ( ! $response instanceof IHttpResponse) {
+            $response = new HttpResponse(
+                HttpStatusCode::NOT_FOUND,
+                s(
+                    'Http request was not handled. ' .
+                    'It seems like no one is registered to handle it. ' .
+                    'You can solve this by handling the "%s" event and providing ' .
+                    'a valid IHttpResponse i.e: $event->setResponse($response)',
+                    HandleHttpRequestEvent::class
+                )
+            );
         }
 
-        // if there was no one to handle the http request,
-        // return a 404 response
-        return new HttpResponse(
-            HttpStatusCode::NOT_FOUND,
-            s(
-                'Http request was not handled. ' .
-                'It seems like no one is registered to handle it. ' .
-                'You can solve this by handling the "%s" event and providing ' .
-                'a valid IHttpResponse i.e: $event->setResponse($response)',
-                HandleHttpRequestEvent::class
-            )
-        );
+        return $response;
     }
 
     /**
