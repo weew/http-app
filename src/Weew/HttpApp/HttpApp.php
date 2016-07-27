@@ -185,7 +185,7 @@ class HttpApp extends App implements IHttpApp {
      * @return mixed
      */
     protected function detectEnvFromUrlPath(IHttpRequest $request) {
-        $env = $request->getUrl()->parsePath('/env={env}')->get('env');
+        $env = $request->getUrl()->parse('/env={env}')->get('env');
 
         if ($env) {
             // remove environment from the url
